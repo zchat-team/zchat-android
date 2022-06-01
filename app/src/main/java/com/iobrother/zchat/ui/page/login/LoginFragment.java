@@ -46,7 +46,7 @@ public class LoginFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         // TODO: 删除以下两行代码，写在这里仅为了方便测试
-        mState.mobile.set("13705970188");
+        mState.mobile.set("13705931463");
         mState.code.set("123456");
 
         mState.smsLoginRequest.getLoginResultLiveData().observe(this, result -> {

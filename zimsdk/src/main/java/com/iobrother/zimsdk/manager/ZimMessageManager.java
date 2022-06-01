@@ -7,6 +7,8 @@ import com.iobrother.zimsdk.bean.ZimMessage;
 import com.iobrother.zimsdk.listener.ZimCallback;
 import com.iobrother.zimsdk.listener.ZimMessageListener;
 import com.iobrother.zimsdk.listener.ZimResultCallback;
+import com.iobrother.zimsdk.listener.ZimSendCallback;
+import com.iobrother.zimsdk.utils.JSONUtils;
 
 import java.util.List;
 
@@ -20,7 +22,7 @@ public class ZimMessageManager {
         this.client = client;
     }
 
-    public void sendMessage(ZimMessage msg) {
+    public void sendMessage(ZimMessage msg, ZimSendCallback callback) {
         sdktype.SendReq req = new sdktype.SendReq();
         req.setType(msg.getType().ordinal());
         req.setConvType(msg.getConvType().ordinal());
@@ -29,17 +31,18 @@ public class ZimMessageManager {
         Sdk.send(req, new SendCallback() {
             @Override
             public void onError(long l, String s) {
-
+                callback.onError((int)l, s);
             }
 
             @Override
             public void onProgress(long l) {
-
+                callback.onProgress((int)l);
             }
 
             @Override
             public void onSuccess(String s) {
-                Log.d("TEST", "SEND SUCCESS");
+                ZimMessage msg = JSONUtils.toObj(s, ZimMessage.class);
+                callback.onSuccess(msg);
             }
         });
     }
@@ -48,17 +51,17 @@ public class ZimMessageManager {
         sdk.Sdk.setMessageListener(new MessageListener() {
             @Override
             public void onMessageRecalled(long l) {
-
+                listener.onMessageRecalled(l);
             }
 
             @Override
             public void onNewMessage(String s) {
-
+//                listener.onNewMessage(s);
             }
 
             @Override
             public void onReadReceipt(String s) {
-
+//                listener.onReadReceipt();
             }
         });
     }

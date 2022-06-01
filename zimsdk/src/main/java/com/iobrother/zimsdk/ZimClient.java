@@ -6,8 +6,10 @@ import android.util.Log;
 
 import com.iobrother.zimsdk.bean.ZimConversation;
 import com.iobrother.zimsdk.bean.ZimMessage;
+import com.iobrother.zimsdk.listener.ZimErrorListener;
 import com.iobrother.zimsdk.listener.ZimResultCallback;
 import com.iobrother.zimsdk.listener.ZimSDKListener;
+import com.iobrother.zimsdk.listener.ZimSendCallback;
 import com.iobrother.zimsdk.manager.ZimContactManager;
 import com.iobrother.zimsdk.manager.ZimConversationManager;
 import com.iobrother.zimsdk.manager.ZimGroupManager;
@@ -16,6 +18,7 @@ import com.iobrother.zimsdk.manager.ZimMessageManager;
 import java.util.List;
 
 import sdk.Sdk;
+import sdktype.ErrorListener;
 import sdktype.SDKListener;
 
 public class ZimClient {
@@ -97,19 +100,16 @@ public class ZimClient {
         sdk.Sdk.setSDKListener(new SDKListener() {
             @Override
             public void onConnected() {
-                Log.d("TEST", "onConnected: 111111111111111");
                 listener.onConnected();
             }
 
             @Override
             public void onConnecting() {
-                Log.d("TEST", "onConnecting: 111111111111111");
                 listener.onConnecting();
             }
 
             @Override
             public void onDisconnected(long l, String s) {
-                Log.d("TEST", "onDisconnected: 111111111111111");
                 listener.onDisconnected((int)l, s);
             }
 
@@ -120,11 +120,21 @@ public class ZimClient {
         });
     }
 
+
+    public void setErrorListener(ZimErrorListener listener) {
+        sdk.Sdk.setErrorListener(new ErrorListener() {
+            @Override
+            public void onError(long l, String s) {
+                listener.onError((int)l, s);
+            }
+        });
+    }
+
     public void unInit() {
     }
 
-    public void send(ZimMessage msg) {
-        messageManager().sendMessage(msg);
+    public void send(ZimMessage msg, ZimSendCallback callback) {
+        messageManager().sendMessage(msg, callback);
     }
 
     public void loadAllConversations(ZimResultCallback<List<ZimConversation>> callback) {
@@ -145,4 +155,5 @@ public class ZimClient {
         }
         return null;
     }
+
 }

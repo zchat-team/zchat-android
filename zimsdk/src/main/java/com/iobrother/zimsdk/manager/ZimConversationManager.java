@@ -1,5 +1,7 @@
 package com.iobrother.zimsdk.manager;
 
+import android.util.Log;
+
 import com.iobrother.zimsdk.ZimClient;
 import com.iobrother.zimsdk.bean.ZimConversation;
 import com.iobrother.zimsdk.bean.ZimMessage;
@@ -7,6 +9,7 @@ import com.iobrother.zimsdk.listener.ZimCallback;
 import com.iobrother.zimsdk.listener.ZimCallbackProxy;
 import com.iobrother.zimsdk.listener.ZimConversationListener;
 import com.iobrother.zimsdk.listener.ZimResultCallback;
+import com.iobrother.zimsdk.utils.JSONUtils;
 
 import java.util.List;
 
@@ -23,11 +26,14 @@ public class ZimConversationManager {
         sdk.Sdk.setConversationListener(new ConversationListener() {
             @Override
             public void onConversationChanged(String s) {
-
+                List<ZimConversation> list = JSONUtils.toArray(s, ZimConversation.class);
+                listener.onConversationChanged(list);
             }
 
             @Override
             public void onNewConversation(String s) {
+                List<ZimConversation> list = JSONUtils.toArray(s, ZimConversation.class);
+                listener.onNewConversation(list);
 
             }
         });
@@ -36,17 +42,6 @@ public class ZimConversationManager {
     // 获取本地会话列表
     public void loadAllConversations(ZimResultCallback<List<ZimConversation>> callback) {
         Sdk.loadAllConversations(ZimCallbackProxy.listCallback(callback, ZimConversation.class));
-//        Sdk.loadAllConversations(new Callback() {
-//            @Override
-//            public void onError(long l, String s) {
-//
-//            }
-//
-//            @Override
-//            public void onSuccess(String s) {
-//
-//            }
-//        });
     }
 
     public void getConversation(String id, ZimResultCallback<ZimConversation> callback) {
