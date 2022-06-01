@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_bottom_graph"
+    app:startDestination="@id/nav_chat">
+    <fragment
+        android:id="@+id/nav_chat"
+        android:name="com.iobrother.zchat.ui.page.chat.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" />
+    <fragment
+        android:id="@+id/nav_contact"
+        android:name="com.iobrother.zchat.ui.page.contact.ContactFragment"
+        android:label="fragment_contact"
+        tools:layout="@layout/fragment_contact" />
+    <fragment
+        android:id="@+id/nav_discover"
+        android:name="com.iobrother.zchat.ui.page.discover.DiscoverFragment"
+        android:label="fragment_discover"
+        tools:layout="@layout/fragment_discover" />
+    <fragment
+        android:id="@+id/nav_me"
+        android:name="com.iobrother.zchat.ui.page.me.MeFragment"
+        android:label="fragment_me"
+        tools:layout="@layout/fragment_me" />
+</navigation>
