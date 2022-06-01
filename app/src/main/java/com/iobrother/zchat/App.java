@@ -11,6 +11,7 @@ public class App extends BaseApplication {
 
         Utils.init(this);
         AppCache.init(this);
+
         AppCache.setLogin(false);
     }
 }

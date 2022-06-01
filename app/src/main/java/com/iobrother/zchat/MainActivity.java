@@ -41,6 +41,8 @@ public class MainActivity extends BaseActivity {
 
                 if (!AppCache.isLogin()) {
                     controller.navigate(R.id.loginFragment);
+                }else{
+                    ZimHelper.getInstance().init(getApplicationContext());
                 }
             }
         });

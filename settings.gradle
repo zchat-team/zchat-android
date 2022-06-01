@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 rootProject.name = "zchat"
 include ':app'
 include ':architecture'
+include ':zimsdk'
